@@ -42,7 +42,7 @@ const App = () => {
       setPassword('')
     } catch {
       setMessageType('Negative')
-      setMessage(`Invalid Credentials`)
+      setMessage('Invalid Credentials')
     }
   }
 
@@ -66,15 +66,28 @@ const App = () => {
         setMessage('New Blog was successfully added')
 
         if (blogFormRef.current) {
-        blogFormRef.current.toggleVisibility()
+          blogFormRef.current.toggleVisibility()
         }
       })
   }
 
-  const deleteBlog = async (blog) => {
-    blogService
-      .delete(blog)
+  const handleDelete = async (id) => {
+    if (window.confirm('Are you sure you want to delete this blog?')) {
+      try {
+        await blogService.remove(id)
+        setBlogs(blogs.filter(b => b.id !== id))
+      } catch (error) {
+        if (error.response && error.response.data.error === 'jwt expired') {
+          window.localStorage.removeItem('loggedBlogappUser')
+          setUser(null)
+          setMessageType('Negative')
+          setMessage('Session expired, please log in again')
+        }
+      }
+    }
   }
+
+
 
   const loginForm = () => (
     <Togglable buttonLabel="login">
@@ -110,7 +123,7 @@ const App = () => {
           <p>{user.name} logged in</p>
           <button
             onClick={() => {
-              window.localStorage.removeItem('loggedNoteappUser')
+              window.localStorage.removeItem('loggedBlogappUser')
               setUser(null)
             }}
           >
@@ -122,7 +135,7 @@ const App = () => {
 
       <ul>
         {blogs.map(blog => (
-          <Blog key={blog.id} blog={blog} handleLike={likeBlog}/>
+          <Blog key={blog.id} blog={blog} handleLike={likeBlog} handleDelete={handleDelete} currentUser={user}/>
         ))}
       </ul>
     </div>

@@ -1,33 +1,43 @@
-import globals from 'globals'
 import js from '@eslint/js'
-import stylistic from '@stylistic/eslint-plugin'
-
+import globals from 'globals'
+import reactHooks from 'eslint-plugin-react-hooks'
+import reactRefresh from 'eslint-plugin-react-refresh'
 
 export default [
-  js.configs.recommended,
+  { ignores: ['dist'] },
   {
-    files: ['**/*.js'],
+    files: ['**/*.{js,jsx}'],
     languageOptions: {
-      sourceType: 'commonjs',
-      globals: { ...globals.node },
-      ecmaVersion: 'latest',
+      ecmaVersion: 2020,
+      globals: globals.browser,
+      parserOptions: {
+        ecmaVersion: 'latest',
+        ecmaFeatures: { jsx: true },
+        sourceType: 'module'
+      }
     },
     plugins: {
-      stylistic,
+      'react-hooks': reactHooks,
+      'react-refresh': reactRefresh
     },
     rules: {
-      'stylistic/indent': ['error', 2],
-      //'stylistic/linebreak-style': ['error', 'unix'],
-      'stylistic/quotes': ['error', 'single'],
-      'stylistic/semi': ['error', 'never'],
+      ...js.configs.recommended.rules,
+      ...reactHooks.configs.recommended.rules,
+      'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }],
+      'react-refresh/only-export-components': [
+        'warn',
+        { allowConstantExport: true }
+
+      ],
+      indent: ['error', 2],
+      'linebreak-style': ['error', 'unix'],
+      quotes: ['error', 'single'],
+      semi: ['error', 'never'],
       eqeqeq: 'error',
       'no-trailing-spaces': 'error',
       'object-curly-spacing': ['error', 'always'],
       'arrow-spacing': ['error', { before: true, after: true }],
-      'no-console': 'off',
-    },
-  },
-  {
-    ignores: ['dist/**'],
-  },
+      'no-console': 'off'
+    }
+  }
 ]

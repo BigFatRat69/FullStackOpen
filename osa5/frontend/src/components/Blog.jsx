@@ -23,7 +23,7 @@ const Blog = ({ blog, handleLike, handleDelete, currentUser }) => {
             Likes: {blog.likes}
             <button onClick={() => handleLike(blog)}>Like</button>
           </p>
-          <p>Posted by: {blog.user?.username} || 'Unknown'</p>
+          <p>Posted by: {blog.user?.username || 'Unknown'}</p>
 
           {canDelete && (
             <button onClick={() => handleDelete(blog.id)}>Delete</button>

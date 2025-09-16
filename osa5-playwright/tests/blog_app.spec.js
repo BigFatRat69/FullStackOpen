@@ -47,20 +47,45 @@ describe('Blog App', () => {
       await loginWith(page, 'etestaaja', 'etestaaja')
     })
 
-    describe('and several notes exists', () => {
+    describe('and several blogs exists', () => {
       beforeEach(async ({ page }) => {
         await createBlog(page, 'first blog')
         await createBlog(page, 'second blog')
       })
 
       test('one of those can be liked', async ({ page }) => {
-        const blog = page.locator('.blog', { hasText: 'first blog' })
+        const blog = page.locator('.blog', { hasText: 'second blog' })
 
         await blog.getByRole('button', { name: 'View' }).click()
         await blog.getByRole('button', { name: 'Like' }).click()
 
-        const updatedBlog = page.locator('.blog', { hasText: 'first blog' })
+        const updatedBlog = page.locator('.blog', { hasText: 'second blog' })
         await expect(updatedBlog.getByText('Likes: 1')).toBeVisible()
+      })
+
+      test('most liked blog shows up on top', async ({page}) => {
+        const firstBlog = page.locator('.blog', { hasText: 'first blog' })
+        await firstBlog.getByRole('button', { name: 'view' }).click()
+        
+        const secondBlog = page.locator('.blog', { hasText: 'second blog' })
+        await secondBlog.getByRole('button', { name: 'view' }).click()
+
+        await secondBlog.getByRole('button', { name: 'like' }).click()
+        await secondBlog.getByRole('button', { name: 'like' }).click()
+
+        const blogs = page.locator('.blog')
+        await expect(blogs.nth(0)).toContainText('second blog')
+      })
+
+      test('only user who created a blog can see delete button', async ({ page }) => {
+        await page.getByRole('button', { name: 'Log Out' }).click()
+
+        await loginWith(page, 'ttestaaja', 'ttestaaja')
+
+        const blog = page.locator('.blog', { hasText: 'second blog' })
+        await blog.getByRole('button', { name: 'view' }).click()
+
+        await expect(blog.getByRole('button', { name: 'delete' })).toHaveCount(0)
       })
     })
 
@@ -96,23 +121,6 @@ describe('Blog App', () => {
 
       await expect(page.getByText('Another blog created by playwright')).toBeVisible()
       await expect(page.getByText('Playwright Tester')).toBeVisible()
-    })
-
-    describe('and a blog exists pt2', () => {
-      beforeEach(async ({ page }) => {
-        await createBlog(page, 'Blog created by Eetu')
-      })
-
-      test('only user who created a blog can see delete button', async ({ page }) => {
-        await page.getByRole('button', { name: 'Log Out' }).click()
-
-        await loginWith(page, 'ttestaaja', 'ttestaaja')
-
-        const blog = page.locator('.blog', { hasText: 'Blog created by Eetu' })
-        await blog.getByRole('button', { name: 'view' }).click()
-
-        await expect(blog.getByRole('button', { name: 'delete' })).toHaveCount(0)
-      })
     })
   })
 })

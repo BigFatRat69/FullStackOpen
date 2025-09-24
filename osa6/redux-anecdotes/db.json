@@ -1,0 +1,39 @@
+{
+  "anecdotes": [
+    {
+      "id": "1",
+      "content": "If it hurts, do it more often",
+      "votes": 5
+    },
+    {
+      "id": "2cce",
+      "content": "Test anecdote 1",
+      "votes": 5
+    },
+    {
+      "id": "f13a",
+      "content": "dddd",
+      "votes": 0
+    },
+    {
+      "id": "3428",
+      "content": "a",
+      "votes": 0
+    },
+    {
+      "id": "679e",
+      "content": "dawdwa",
+      "votes": 0
+    },
+    {
+      "id": "98e7",
+      "content": "ddd",
+      "votes": 0
+    },
+    {
+      "id": "16f3",
+      "content": "dawdwad",
+      "votes": 0
+    }
+  ]
+}

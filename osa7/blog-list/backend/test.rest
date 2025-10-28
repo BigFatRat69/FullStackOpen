@@ -1,0 +1,42 @@
+### Get all blogs
+GET http://localhost:3001/api/blogs
+
+### Add a new blog
+POST http://localhost:3001/api/blogs
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImVlc2tlbGluZW4xIiwiaWQiOiI2OGMyNzI2NmQxNWQxMjc1ZGJlODYwNGIiLCJpYXQiOjE3NTc1NzM3NDAsImV4cCI6MTc1NzU3NzM0MH0.NbWo1dclY2X5TuA3mI13lNTw0NSSmeVHFJu8Vm2twY0
+
+{
+  "title": "My Sixth Blog",
+  "author": "WWWWWW",
+  "url": "http://example1.com",
+  "likes": 12
+}
+
+### Delete a blog
+DELETE http://localhost:3001/api/blogs/68b148185389b07878926174
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImVlc2tlbGluZW4iLCJpZCI6IjY4YjAyNDRkZGM5YTE0NjhmYWNhZjcxZiIsImlhdCI6MTc1NjQ0OTAyNCwiZXhwIjoxNzU2NDUyNjI0fQ.TbrMejbUuGESmyTldEEyT06u9YoIjH8aDus57sAei5U
+
+### Add a new user
+POST http://localhost:3001/api/users
+Content-Type: application/json
+
+{
+    "username": "eeskelinen1",
+    "name": "eeskelinen1",
+    "password": "eeskelinen1"
+}
+
+### Get all users
+GET http://localhost:3001/api/users
+Content-Type: application/json
+
+### Login
+POST http://localhost:3001/api/login
+Content-Type: application/json
+
+{
+  "username": "eeskelinen1",
+  "password": "eeskelinen1"
+}

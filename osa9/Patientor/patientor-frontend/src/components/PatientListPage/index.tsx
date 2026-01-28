@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { Box, Table, Button, TableHead, Typography, TableCell, TableRow, TableBody } from '@mui/material';
 import axios from 'axios';
 
@@ -71,6 +72,11 @@ const PatientListPage = ({ patients, setPatients } : Props ) => {
               <TableCell>{patient.occupation}</TableCell>
               <TableCell>
                 <HealthRatingBar showText={false} rating={1} />
+              </TableCell>
+              <TableCell>
+                <Button component={Link} to={`/patients/${patient.id}`}>
+                  View
+                </Button>
               </TableCell>
             </TableRow>
           ))}
